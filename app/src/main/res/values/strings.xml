@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">TTS2026</string>
+    <string name="account_title">Thông tin tài khoản</string>
+    <string name="image_instruction">Chạm vào ảnh, kéo để di chuyển hoặc nhấn giữ để đặt lại</string>
+    <string name="draggable_image">Ảnh có thể kéo thả</string>
+    <string name="image_clicked">Bạn vừa chạm vào ảnh</string>
+    <string name="image_reset">Đã đưa ảnh về vị trí ban đầu</string>
+    <string name="image_dropped">Thả ảnh tại (%1$d, %2$d)</string>
+    <string name="back">Quay lại</string>
+    <string name="fragment_lifecycle_title">Fragment lifecycle</string>
+    <string name="fragment_lifecycle_empty">Chưa có sự kiện lifecycle</string>
+    <string name="detach_fragment">Tháo Fragment</string>
+    <string name="attach_fragment">Gắn Fragment</string>
 </resources>
