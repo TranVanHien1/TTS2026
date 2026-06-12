@@ -1,3 +1,28 @@
 <resources>
     <string name="app_name">TTS2026</string>
+    <string name="welcome_back">Chào mừng trở lại</string>
+    <string name="login_description">Đăng nhập để tiếp tục sử dụng ứng dụng</string>
+    <string name="email">Email</string>
+    <string name="email_hint">example@email.com</string>
+    <string name="email_required">Vui lòng nhập email</string>
+    <string name="password">Mật khẩu</string>
+    <string name="password_error">Mật khẩu phải có ít nhất 6 ký tự</string>
+    <string name="show">Hiện</string>
+    <string name="hide">Ẩn</string>
+    <string name="remember_me">Ghi nhớ tôi</string>
+    <string name="forgot_password">Quên mật khẩu?</string>
+    <string name="login">Đăng nhập</string>
+    <string name="login_success">Đăng nhập thành công</string>
+    <string name="login_failed">Đăng nhập thất bại</string>
+    <string name="forgot_password_message">Chức năng quên mật khẩu đang được phát triển</string>
+    <string name="or">hoặc</string>
+    <string name="no_account">Chưa có tài khoản?</string>
+    <string name="register">Đăng ký</string>
+    <string name="register_message">Chức năng đăng ký đang được phát triển</string>
+    <string name="register_title">Tạo tài khoản</string>
+    <string name="confirm_password">Xác nhận mật khẩu</string>
+    <string name="confirm_password_error">Mật khẩu xác nhận không khớp</string>
+    <string name="back_to_login">Quay lại đăng nhập</string>
+    <string name="home_title">Trang chủ</string>
+    <string name="home_description">Bạn đã đăng nhập thành công</string>
 </resources>
