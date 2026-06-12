@@ -37,7 +37,7 @@
         android:id="@+id/btnBundle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="76dp"
         android:text="Bundle"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,13 +53,13 @@
         app:layout_constraintStart_toEndOf="@+id/btnBundle"
         app:layout_constraintTop_toBottomOf="@+id/edtPassword" />
 
-<!--    <Button-->
-<!--        android:id="@+id/btnParce"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="36dp"-->
-<!--        android:layout_marginTop="76dp"-->
-<!--        android:text="Parcelable"-->
-<!--        app:layout_constraintStart_toEndOf="@+id/btnSeri"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/edtPassword" />-->
+    <Button
+        android:id="@+id/btnParce"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="76dp"
+        android:text="Parcelable"
+        app:layout_constraintStart_toEndOf="@+id/btnSeri"
+        app:layout_constraintTop_toBottomOf="@+id/edtPassword" />
 </androidx.constraintlayout.widget.ConstraintLayout>

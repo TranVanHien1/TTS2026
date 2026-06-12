@@ -9,25 +9,25 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.tts2026.R
 import java.io.Serializable
-//import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.Parcelize
 
 data class UserSerializable(
     val name: String,
     val pass: String
 ) : Serializable
 
-//@Parcelize
-//data class UserParcelable(
-//    val name: String,
-//    val pass: String
-//) : Parcelable
+@Parcelize
+data class UserParcelable(
+    val name: String,
+    val pass: String
+) : Parcelable
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var edtName: EditText
     private lateinit var edtPassword: EditText
     private lateinit var btnBundle: Button
-    //private lateinit var btnParce: Button
+    private lateinit var btnParce: Button
     private lateinit var btnSeri: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,7 +37,7 @@ class LoginActivity : AppCompatActivity() {
         edtName = findViewById(R.id.edtName)
         edtPassword = findViewById(R.id.edtPassword)
         btnBundle = findViewById(R.id.btnBundle)
-//        btnParce = findViewById(R.id.btnParce)
+        btnParce = findViewById(R.id.btnParce)
         btnSeri = findViewById(R.id.btnSeri)
 
         btnBundle.setOnClickListener {
@@ -60,6 +60,17 @@ class LoginActivity : AppCompatActivity() {
             var user = UserSerializable(name, password)
             intent.putExtra("type", "serializable")
             intent.putExtra("user", user)
+            startActivity(intent)
+        }
+        btnParce.setOnClickListener {
+            val data= getLoginData() ?: return@setOnClickListener
+
+            val (name, password) = data
+            val intent = Intent(this, AccountActivity::class.java)
+            var user = UserParcelable(name, password)
+            intent.putExtra("type", "parcelable")
+            intent.putExtra("user", user)
+
             startActivity(intent)
         }
     }
