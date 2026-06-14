@@ -8,4 +8,9 @@ class FakeAuthRepository @Inject constructor() : AuthRepository {
         delay(800)
         return Result.success(Unit)
     }
+
+    override suspend fun register(email: String, password: String): Result<Unit> {
+        delay(800)
+        return Result.success(Unit)
+    }
 }

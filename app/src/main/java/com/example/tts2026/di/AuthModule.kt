@@ -1,7 +1,7 @@
 package com.example.tts2026.di
 
 import com.example.tts2026.data.auth.AuthRepository
-import com.example.tts2026.data.auth.FakeAuthRepository
+import com.example.tts2026.data.auth.RoomAuthRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -15,6 +15,6 @@ abstract class AuthModule {
     @Binds
     @Singleton
     abstract fun bindAuthRepository(
-        implementation: FakeAuthRepository
+        implementation: RoomAuthRepository
     ): AuthRepository
 }

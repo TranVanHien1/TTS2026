@@ -20,6 +20,8 @@
     <string name="register">Đăng ký</string>
     <string name="register_message">Chức năng đăng ký đang được phát triển</string>
     <string name="register_title">Tạo tài khoản</string>
+    <string name="register_success">Đăng ký tài khoản thành công</string>
+    <string name="register_failed">Email đã tồn tại hoặc không thể đăng ký</string>
     <string name="confirm_password">Xác nhận mật khẩu</string>
     <string name="confirm_password_error">Mật khẩu xác nhận không khớp</string>
     <string name="back_to_login">Quay lại đăng nhập</string>

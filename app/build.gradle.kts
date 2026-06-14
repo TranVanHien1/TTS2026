@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.internal.KaptWithoutKotlincTask
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -42,12 +44,25 @@ kapt {
     correctErrorTypes = true
 }
 
+val sqliteTmpDir = rootProject.layout.buildDirectory.dir("tmp").get().asFile
+sqliteTmpDir.mkdirs()
+
+tasks.withType<KaptWithoutKotlincTask>().configureEach {
+    kaptProcessJvmArgs.addAll(
+        listOf(
+            "-Dorg.sqlite.tmpdir=${sqliteTmpDir.absolutePath}",
+            "-Djava.io.tmpdir=${sqliteTmpDir.absolutePath}"
+        )
+    )
+}
+
 dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.runtime)
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
@@ -69,5 +84,8 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
     kapt(libs.hilt.compiler)
+    kapt(libs.androidx.room.compiler)
 }
