@@ -2,7 +2,8 @@ package com.example.tts2026.ui.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.tts2026.data.auth.AuthRepository
+import com.example.tts2026.data.auth.auth.AuthRepository
+import com.example.tts2026.data.preferences.UserPreferencesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,7 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val userPreferencesRepository: UserPreferencesRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(LoginUiState())
@@ -50,6 +52,7 @@ class LoginViewModel @Inject constructor(
 
             authRepository.login(currentState.email, currentState.password)
                 .onSuccess {
+                    userPreferencesRepository.saveSession(currentState.email)
                     _uiState.update { state ->
                         state.copy(isLoading = false, loginSucceeded = true)
                     }

@@ -40,6 +40,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.tts2026.R
 import com.example.tts2026.ui.theme.TTS2026Theme
 
@@ -103,6 +108,8 @@ fun LoginScreen(
                 .padding(horizontal = 24.dp),
             verticalArrangement = Arrangement.Center
         ) {
+            LoginLottieAnimation()
+
             Text(
                 text = stringResource(R.string.welcome_back),
                 style = MaterialTheme.typography.headlineLarge,
@@ -225,6 +232,25 @@ fun LoginScreen(
             }
         }
     }
+}
+
+@Composable
+private fun LoginLottieAnimation() {
+    val composition by rememberLottieComposition(
+        LottieCompositionSpec.RawRes(R.raw.login_animation)
+    )
+    val progress by animateLottieCompositionAsState(
+        composition = composition,
+        iterations = LottieConstants.IterateForever
+    )
+
+    LottieAnimation(
+        composition = composition,
+        progress = { progress },
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(140.dp)
+    )
 }
 
 @Preview(showBackground = true, showSystemUi = true)

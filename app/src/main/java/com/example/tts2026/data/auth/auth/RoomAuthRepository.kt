@@ -1,6 +1,10 @@
-package com.example.tts2026.data.auth
+package com.example.tts2026.data.auth.auth
 
 import android.database.sqlite.SQLiteConstraintException
+import com.example.tts2026.data.auth.auth.AuthRepository
+import com.example.tts2026.data.auth.DAO.UserDao
+import com.example.tts2026.data.auth.Entity.UserEntity
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class RoomAuthRepository @Inject constructor(
@@ -27,5 +31,9 @@ class RoomAuthRepository @Inject constructor(
         } catch (exception: SQLiteConstraintException) {
             Result.failure(exception)
         }
+    }
+
+    override fun listUsers(): Flow<List<UserEntity>> {
+        return userDao.listUsers()
     }
 }

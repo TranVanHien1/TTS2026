@@ -2,8 +2,11 @@ package com.example.tts2026.di
 
 import android.content.Context
 import androidx.room.Room
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.tts2026.data.auth.AppDatabase
-import com.example.tts2026.data.auth.UserDao
+import com.example.tts2026.data.auth.DAO.CarDao
+import com.example.tts2026.data.auth.DAO.UserDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,6 +18,22 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
 
+    private val migration1To2 = object : Migration(1, 2) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL(
+                """
+                CREATE TABLE IF NOT EXISTS cars (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                    name TEXT NOT NULL,
+                    model TEXT NOT NULL,
+                    year INTEGER NOT NULL,
+                    price REAL NOT NULL
+                )
+                """.trimIndent()
+            )
+        }
+    }
+
     @Provides
     @Singleton
     fun provideAppDatabase(
@@ -24,11 +43,18 @@ object DatabaseModule {
             context,
             AppDatabase::class.java,
             "tts2026.db"
-        ).build()
+        )
+            .addMigrations(migration1To2)
+            .build()
     }
 
     @Provides
     fun provideUserDao(database: AppDatabase): UserDao {
         return database.userDao()
+    }
+
+    @Provides
+    fun provideCarDao(database: AppDatabase): CarDao {
+        return database.carDao()
     }
 }

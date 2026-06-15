@@ -1,4 +1,4 @@
-package com.example.tts2026.data.auth
+package com.example.tts2026.data.auth.Entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

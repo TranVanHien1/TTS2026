@@ -86,6 +86,8 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.lottie.compose)
     kapt(libs.hilt.compiler)
     kapt(libs.androidx.room.compiler)
 }
