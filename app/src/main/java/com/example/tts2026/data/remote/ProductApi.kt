@@ -9,6 +9,6 @@ interface ProductApi {
 
     @GET("products")
     suspend fun getProducts(
-        @Query("limit") limit: Int = 30
+        @Query("limit") limit: Int = 200
     ): ProductResponse
 }

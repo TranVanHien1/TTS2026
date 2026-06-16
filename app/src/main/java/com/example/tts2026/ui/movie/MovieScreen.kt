@@ -15,6 +15,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,7 +26,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
@@ -47,7 +52,15 @@ fun MovieRoute(
     // MVVM: state di xuong View, event onRetry di nguoc len ViewModel.
     ProductScreen(
         uiState = uiState,
-        onRetry = viewModel::loadMovies
+        onRetry = viewModel::loadMovies,
+        onRatingInputChanged = viewModel::onRatingInputChanged,
+        onFilterByRating = viewModel::filterProductsByRating,
+        onClearFilter = viewModel::clearRatingFilter,
+        onSortPriceAscending = viewModel::sortPriceAscending,
+        onSortPriceDescending = viewModel::sortPriceDescending,
+        onClearPriceSort = viewModel::clearPriceSort,
+        onPreviousPage = viewModel::goToPreviousPage,
+        onNextPage = viewModel::goToNextPage
     )
 }
 
@@ -55,6 +68,14 @@ fun MovieRoute(
 fun ProductScreen(
     uiState: MovieUiState,
     onRetry: () -> Unit,
+    onRatingInputChanged: (String) -> Unit,
+    onFilterByRating: () -> Unit,
+    onClearFilter: () -> Unit,
+    onSortPriceAscending: () -> Unit,
+    onSortPriceDescending: () -> Unit,
+    onClearPriceSort: () -> Unit,
+    onPreviousPage: () -> Unit,
+    onNextPage: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Scaffold(modifier = modifier.fillMaxSize()) { innerPadding ->
@@ -71,6 +92,18 @@ fun ProductScreen(
                 fontWeight = FontWeight.Bold
             )
 
+            ProductFilterBar(
+                uiState = uiState,
+                onRatingInputChanged = onRatingInputChanged,
+                onFilterByRating = onFilterByRating,
+                onClearFilter = onClearFilter,
+                onSortPriceAscending = onSortPriceAscending,
+                onSortPriceDescending = onSortPriceDescending,
+                onClearPriceSort = onClearPriceSort,
+                onPreviousPage = onPreviousPage,
+                onNextPage = onNextPage
+            )
+
             // ProductScreen doc snapshot uiState hien tai do collector cung cap.
             // Chi Composable doc cac field thay doi moi can duoc Compose ve lai.
             when {
@@ -80,6 +113,115 @@ fun ProductScreen(
                     onRetry = onRetry
                 )
                 else -> ProductList(products = uiState.products)
+            }
+        }
+    }
+}
+
+@Composable
+private fun ProductFilterBar(
+    uiState: MovieUiState,
+    onRatingInputChanged: (String) -> Unit,
+    onFilterByRating: () -> Unit,
+    onClearFilter: () -> Unit,
+    onSortPriceAscending: () -> Unit,
+    onSortPriceDescending: () -> Unit,
+    onClearPriceSort: () -> Unit,
+    onPreviousPage: () -> Unit,
+    onNextPage: () -> Unit
+) {
+    Card(modifier = Modifier.fillMaxWidth()) {
+        Column(
+            modifier = Modifier.padding(5.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Text(
+                text = "Loc san pham",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+                fontSize = 10.sp
+            )
+            Text(text = uiState.filterMessage, fontSize = 10.sp)
+            Text(text = "tong san pham: ${uiState.totalFilteredProducts}", fontSize = 10.sp)
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                OutlinedTextField(
+                    value = uiState.ratingInput,
+                    onValueChange = onRatingInputChanged,
+                    label = { Text("Rating >=",
+                        fontSize = 10.sp)},
+                    textStyle = TextStyle(fontSize = 10.sp),
+                    modifier = Modifier
+                        .height(48.dp)
+                        .width(150.dp),
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal)
+                )
+                Button(onClick = onFilterByRating) {
+                    Text("Tim", fontSize = 10.sp)
+                }
+                Button(onClick = onClearFilter) {
+                    Text("Xoa", fontSize = 10.sp)
+                }
+            }
+
+            Text(
+                text = when (uiState.priceSortOrder) {
+                    PriceSortOrder.NONE -> "Sap xep gia: mac dinh"
+                    PriceSortOrder.ASCENDING -> "Sap xep gia: thap den cao"
+                    PriceSortOrder.DESCENDING -> "Sap xep gia: cao den thap"
+                },
+                fontSize = 10.sp
+            )
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Button(
+                    onClick = onSortPriceAscending,
+                    modifier = Modifier.weight(1f),
+                ) {
+                    Text("Gia tang",fontSize = 10.sp)
+                }
+                Button(
+                    onClick = onSortPriceDescending,
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text("Gia giam", fontSize = 10.sp)
+                }
+                Button(
+                    onClick = onClearPriceSort,
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text("Mac dinh", fontSize = 10.sp)
+                }
+            }
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Button(
+                    onClick = onPreviousPage,
+                    modifier = Modifier.weight(1f),
+                    enabled = uiState.currentPage > 1
+                ) {
+                    Text("Trang truoc", fontSize = 10.sp)
+                }
+                Text("Trang ${uiState.currentPage}/${uiState.totalPages}", fontSize = 10.sp)
+                Button(
+                    onClick = onNextPage,
+                    enabled = uiState.currentPage < uiState.totalPages
+                ) {
+                    Text("Trang sau", fontSize = 10.sp)
+                }
             }
         }
     }
