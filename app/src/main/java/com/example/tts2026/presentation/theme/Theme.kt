@@ -1,4 +1,4 @@
-package com.example.tts2026.ui.theme
+package com.example.tts2026.presentation.theme
 
 import android.app.Activity
 import android.os.Build
