@@ -17,10 +17,12 @@ private val Context.userPreferencesDataStore by preferencesDataStore(
     name = "user_preferences"
 )
 
+// DataStore luu state nho/toan app: session email va tab Home dang chon.
 @Singleton
 class UserPreferencesRepository @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
+    // Flow nay duoc Navigation collect de quyet dinh start destination.
     val sessionEmail: Flow<String?> = context.userPreferencesDataStore.data
         .catch { exception ->
             if (exception is IOException) {
@@ -31,6 +33,7 @@ class UserPreferencesRepository @Inject constructor(
         }
         .map { preferences -> preferences[SESSION_EMAIL] }
 
+    // Flow nay duoc HomeViewModel combine vao HomeUiState de nho tab sau khi mo lai app.
     val selectedHomeTab: Flow<Int> = context.userPreferencesDataStore.data
         .catch { exception ->
             if (exception is IOException) {
@@ -42,18 +45,21 @@ class UserPreferencesRepository @Inject constructor(
         .map { preferences -> preferences[SELECTED_HOME_TAB] ?: USERS_TAB }
 
     suspend fun saveSession(email: String) {
+        // Goi sau khi login thanh cong.
         context.userPreferencesDataStore.edit { preferences ->
             preferences[SESSION_EMAIL] = email
         }
     }
 
     suspend fun clearSession() {
+        // Goi khi logout, lam Navigation quay ve Login.
         context.userPreferencesDataStore.edit { preferences ->
             preferences.remove(SESSION_EMAIL)
         }
     }
 
     suspend fun saveSelectedHomeTab(tab: Int) {
+        // Goi khi user bam bottom navigation.
         context.userPreferencesDataStore.edit { preferences ->
             preferences[SELECTED_HOME_TAB] = tab
         }

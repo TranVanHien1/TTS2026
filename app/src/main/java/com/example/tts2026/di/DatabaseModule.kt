@@ -4,9 +4,9 @@ import android.content.Context
 import androidx.room.Room
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.example.tts2026.data.auth.AppDatabase
-import com.example.tts2026.data.auth.DAO.CarDao
-import com.example.tts2026.data.auth.DAO.UserDao
+import com.example.tts2026.data.local.app_database.AppDatabase
+import com.example.tts2026.data.local.dao.CarDao
+import com.example.tts2026.data.local.dao.UserDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,6 +18,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
 
+    // Migration giu du lieu user cu khi them bang cars vao database version 2.
     private val migration1To2 = object : Migration(1, 2) {
         override fun migrate(database: SupportSQLiteDatabase) {
             database.execSQL(
@@ -39,6 +40,7 @@ object DatabaseModule {
     fun provideAppDatabase(
         @ApplicationContext context: Context
     ): AppDatabase {
+        // Room database la singleton de DAO/repository dung chung mot nguon du lieu.
         return Room.databaseBuilder(
             context,
             AppDatabase::class.java,
@@ -50,11 +52,13 @@ object DatabaseModule {
 
     @Provides
     fun provideUserDao(database: AppDatabase): UserDao {
+        // Hilt lay DAO tu AppDatabase de inject vao RoomAuthRepository.
         return database.userDao()
     }
 
     @Provides
     fun provideCarDao(database: AppDatabase): CarDao {
+        // Hilt lay DAO tu AppDatabase de inject vao RoomCarRepository.
         return database.carDao()
     }
 }
