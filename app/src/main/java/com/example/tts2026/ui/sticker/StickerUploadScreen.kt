@@ -40,11 +40,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.core.R
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
@@ -388,9 +386,7 @@ private fun hasEnoughLocalStickerFiles(context: Context, sticker: StickerImageEn
     val packDirectory = File(context.filesDir, "stickers/$DEFAULT_BASE_PACK_IDENTIFIER")
     val selectedStickerExists = File(packDirectory, sticker.localFileName).exists()
     val hasTrayIcon = File(packDirectory, "tray.png").exists()
-    val hasBlankOne = File(packDirectory, "blank_1.webp").exists()
-    val hasBlankTwo = File(packDirectory, "blank_2.webp").exists()
-    return selectedStickerExists && hasTrayIcon && hasBlankOne && hasBlankTwo
+    return selectedStickerExists && hasTrayIcon
 }
 
 private const val WHATSAPP_ENABLE_STICKER_PACK_ACTION = "com.whatsapp.intent.action.ENABLE_STICKER_PACK"
