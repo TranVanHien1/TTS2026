@@ -151,8 +151,7 @@ class StickerContentProvider : ContentProvider() {
         val sticker = findStickerByPackIdentifier(packIdentifier)
         if (sticker != null && isStickerFileValid(sticker)) {
             cursor.addRow(arrayOf(sticker.localFileName, DEFAULT_EMOJI, sticker.publicId))
-            cursor.addRow(arrayOf(StickerImageProcessor.BLANK_STICKER_ONE, DEFAULT_EMOJI, "blank sticker 1"))
-            cursor.addRow(arrayOf(StickerImageProcessor.BLANK_STICKER_TWO, DEFAULT_EMOJI, "blank sticker 2"))
+
         }
         context?.contentResolver?.let { resolver ->
             cursor.setNotificationUri(resolver, AUTHORITY_URI)
@@ -173,15 +172,11 @@ class StickerContentProvider : ContentProvider() {
         return setOf(
             StickerImageProcessor.TRAY_FILE_NAME,
             sticker.localFileName,
-            StickerImageProcessor.BLANK_STICKER_ONE,
-            StickerImageProcessor.BLANK_STICKER_TWO
         )
     }
 
     private fun isStickerFileValid(sticker: StickerImageEntity): Boolean {
         val file = File(getStickerPackDirectory(), sticker.localFileName)
-        val blankOne = File(getStickerPackDirectory(), StickerImageProcessor.BLANK_STICKER_ONE)
-        val blankTwo = File(getStickerPackDirectory(), StickerImageProcessor.BLANK_STICKER_TWO)
         val tray = File(getStickerPackDirectory(), StickerImageProcessor.TRAY_FILE_NAME)
 
         return file.exists() &&
@@ -189,8 +184,6 @@ class StickerContentProvider : ContentProvider() {
             sticker.width == STICKER_SIZE &&
             sticker.height == STICKER_SIZE &&
             file.length() <= MAX_STICKER_BYTES &&
-            blankOne.exists() &&
-            blankTwo.exists() &&
             tray.exists()
     }
 

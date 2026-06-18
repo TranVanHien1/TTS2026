@@ -45,8 +45,6 @@ class StickerImageProcessor @Inject constructor(
         compressWebpUnderTargetSize(stickerBitmap, outputFile)
         // Tray icon dai dien cho cac pack ao, WhatsApp yeu cau PNG 96x96.
         createTrayIcon(stickerBitmap, File(packDirectory, TRAY_FILE_NAME))
-        createBlankStickerIfNeeded(File(packDirectory, BLANK_STICKER_ONE))
-        createBlankStickerIfNeeded(File(packDirectory, BLANK_STICKER_TWO))
 
         sourceBitmap.recycle()
         stickerBitmap.recycle()
@@ -109,22 +107,10 @@ class StickerImageProcessor @Inject constructor(
         trayBitmap.recycle()
     }
 
-    @Suppress("DEPRECATION")
-    private fun createBlankStickerIfNeeded(outputFile: File) {
-        if (outputFile.exists()) return
-
-        val blankBitmap = Bitmap.createBitmap(STICKER_SIZE, STICKER_SIZE, Bitmap.Config.ARGB_8888)
-        FileOutputStream(outputFile).use { stream ->
-            blankBitmap.compress(Bitmap.CompressFormat.WEBP, 80, stream)
-        }
-        blankBitmap.recycle()
-    }
 
     companion object {
         const val DEFAULT_PACK_IDENTIFIER = "my_pack_1"
         const val TRAY_FILE_NAME = "tray.png"
-        const val BLANK_STICKER_ONE = "blank_1.webp"
-        const val BLANK_STICKER_TWO = "blank_2.webp"
         private const val STICKER_SIZE = 512
         private const val TRAY_SIZE = 96
         private const val TARGET_MAX_BYTES = 100 * 1024
